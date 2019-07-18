@@ -153,29 +153,29 @@ add_filter( 'wp_mail_content_type','wpse27856_set_content_type' );
 
 
 //acf global option setting
-if( function_exists('acf_add_options_page') ) {
+// if( function_exists('acf_add_options_page') ) {
     
-    acf_add_options_page(array(
-    'page_title' 	=> '首頁輪播',
-        'menu_title' 	=> '首頁輪播',
-        'menu_slug'     => 'slideshow',
-        'icon_url'      => 'dashicons-images-alt'
-    ));
+//     acf_add_options_page(array(
+//     'page_title' 	=> '首頁輪播',
+//         'menu_title' 	=> '首頁輪播',
+//         'menu_slug'     => 'slideshow',
+//         'icon_url'      => 'dashicons-images-alt'
+//     ));
 
-    acf_add_options_page(array(
-    'page_title' 	=> '證書母版上傳',
-        'menu_title' 	=> '證書母版上傳',
-        'menu_slug'     => 'cert',
-        'icon_url'      => 'dashicons-warning'
-    ));
+//     acf_add_options_page(array(
+//     'page_title' 	=> '證書母版上傳',
+//         'menu_title' 	=> '證書母版上傳',
+//         'menu_slug'     => 'cert',
+//         'icon_url'      => 'dashicons-warning'
+//     ));
     
-    acf_add_options_page(array(
-    'page_title' 	=> '首頁快訊',
-        'menu_title' 	=> '首頁快訊',
-        'menu_slug'     => 'news',
-        'icon_url'      => 'dashicons-star-filled'
-  ));
-}
+//     acf_add_options_page(array(
+//     'page_title' 	=> '首頁快訊',
+//         'menu_title' 	=> '首頁快訊',
+//         'menu_slug'     => 'news',
+//         'icon_url'      => 'dashicons-star-filled'
+//   ));
+// }
 
 // Removes from admin menu
 add_action( 'admin_menu', 'my_remove_admin_menus' );
@@ -198,95 +198,14 @@ add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
 
 // Function to change email address
 function wpb_sender_email( $original_email_address ) {
-    return 'service@edu.userxper.com';
+    return 'service@domain.com';
 }
  
 // Function to change sender name
 function wpb_sender_name( $original_email_from ) {
-    return '悠識數位教育訓練';
+    return '寄件人名稱';
 }
  
 // Hooking up our functions to WordPress filters 
-// add_filter( 'wp_mail_from', 'wpb_sender_email' );
-// add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
-
-function my_custom_taxonomy_columns_content( $content, $column_name, $term_id )
-{
-    if ( 'my_term_id' == $column_name ) {
-        $content = $term_id;
-    }
-  return $content;
-}
-add_filter( 'manage_category_custom_column', 'my_custom_taxonomy_columns_content', 10, 3 );
-
-
-// 排除報名管理裡面的相關課程當前代號
-add_filter('acf/fields/relationship/query/name=apply-related', 'exclude_id', 10, 3);
-
-function exclude_id ( $args, $field, $post ) {
-    $args['post__not_in'] = array( $post );
-    return $args;
-}
-
-/********* Export to xlsx ***********/
-add_action('admin_footer', 'mytheme_export_users');
-
-function mytheme_export_users() {
-    $screen = get_current_screen();
-    // if ( $screen->id != "users" )   // Only add to users.php page
-    //     return;
-    ?>
-    <style>.ac-table-button.-export.last{display:none}.ac-table-actions .ac-table-actions-buttons .ac-table-button{border-right: 1px solid #ccc;}</style>
-    <script type="text/javascript">
-      var $ = jQuery.noConflict();
-      jQuery(document).ready( function($){
-        $('.tablenav.top .clear, .tablenav.bottom .clear').before('<a id="exportBtn" class="button action" target="_blank" style="position:relative;top: 3px;" download="<?php post_type_archive_title(); ?>-匯出資料.csv" onclick="exportData()">匯出資料</a>');
-      });
-      // 點擊匯出
-    function exportData(){
-      var csvList = [],
-      titleList = [],
-      memberContent = "",
-      csvContent;
-
-      // 取得標題
-      $(".wp-list-table thead th").each(function() {
-        titleList.push($(this).text());
-      });
-      csvList.push(titleList);
-
-      // 取得所有資料
-      $(".wp-list-table tbody > tr").each(function() {
-        var regList = [];
-        $(this).children("td").each(function() {
-          if($(this).hasClass('column-title')){
-            regList.push($(this).find('a.row-title').text());
-          } else if($(this).hasClass('column-seotitle')) {
-            regList.push($(this).find("i").text());
-          } else if($(this).hasClass('column-seodesc')) {
-            regList.push($(this).find("i").text());
-          } else {
-            regList.push($(this).text());
-          }
-        });
-        csvList.push(regList);
-      });
-
-      // 產生 csv 內容
-      csvList.forEach(function(rowArray) {
-        var row = rowArray.join(",");
-        memberContent += row + "\r\n";
-      });
-
-      // 產生 csv Blob
-      csvContent = URL.createObjectURL(new Blob(["\uFEFF" + memberContent], {
-        type: 'text/csv;charset=utf-8;'
-      }));
-
-      // 產生 csv 連結
-      $('#exportBtn').attr('href',csvContent);
-    }
-        
-    </script>
-    <?php
-}
+add_filter( 'wp_mail_from', 'wpb_sender_email' );
+add_filter( 'wp_mail_from_name', 'wpb_sender_name' );

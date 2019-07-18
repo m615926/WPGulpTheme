@@ -78,39 +78,9 @@
 			"show_in_quick_edit" => true,
 		);
 
-		$labels2 = array(
-			"name" => __( "課程類型", "" ),
-			"singular_name" => __( "課程類型", "" ),
-			"menu_name" => __( "課程類型", "" ),
-			"all_items" => __( "所有", "" ),
-			"edit_item" => __( "編輯", "" ),
-			"view_item" => __( "檢視", "" ),
-			"update_item" => __( "更新", "" ),
-			"add_new_item" => __( "新增", "" ),
-			"new_item_name" => __( "新增", "" ),
-			"search_items" => __( "搜尋", "" ),
-		);
-
-		$args2 = array(
-			"label" => __( "課程類型", "" ),
-			"labels" => $labels2,
-			"public" => true,
-			"hierarchical" => true,
-			"label" => "課程類型",
-			"show_ui" => true,
-			"show_in_menu" => true,
-			"show_in_nav_menus" => true,
-			"query_var" => true,
-			"rewrite" => array( 'slug' => 'course-type', 'with_front' => true, ),
-			"show_admin_column" => true,
-			"show_in_rest" => false,
-			"rest_base" => 'course-type',
-			"show_in_quick_edit" => true,
-		);
 
 		if( $hasTax ){
 			register_taxonomy( 'course-tag', array( $cptNameEn ), $args );
-			register_taxonomy( 'course-type', array( $cptNameEn ), $args2 );
 		}
 	}
 	add_action( 'init', 'cpt_course' );
